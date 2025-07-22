@@ -64,14 +64,6 @@ st.markdown("""
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     margin-bottom: 20px;
 }
-.header {
-    background: linear-gradient(to right, #00c6ff, #0072ff);
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
 .result-card {
     background: linear-gradient(to right, #00c6ff, #0072ff);
     color: white;
@@ -83,9 +75,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Form Page
+# ---------------------- FORM PAGE ---------------------- #
 if st.session_state.page == 'form':
-    st.markdown("<div class='header'><h2>💼 Salary Prediction Tool</h2></div>", unsafe_allow_html=True)
+    st.markdown("<div class='result-card'><h2>💼 Salary Prediction Tool</h2></div>", unsafe_allow_html=True)
 
     with st.form("salary_form"):
         st.markdown("<div class='card'>", unsafe_allow_html=True)
@@ -109,37 +101,35 @@ if st.session_state.page == 'form':
             }
             go_to_result()
 
-# Result Page
+# ---------------------- RESULT PAGE ---------------------- #
 elif st.session_state.page == 'result':
     st.button("← Back to Form", on_click=go_back_to_form)
 
     st.markdown(f"""
-    <div class="result-card">
-        <h2>💲 Salary Prediction</h2>
-        <h1>${st.session_state.predicted_salary:,.0f}</h1>
-        <p>Annual Salary Estimate</p>
-        <p><b>${st.session_state.predicted_salary * 0.85:,.0f}</b> Low Range — 
-           <b>${st.session_state.predicted_salary * 1.15:,.0f}</b> High Range</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="display: flex; gap: 20px; margin-top: 30px;">
-        <div style="flex: 1;" class="card">
-            <h4>🎯 Your Profile</h4>
-    """, unsafe_allow_html=True)
-
-    for key, value in st.session_state.user_inputs.items():
-        st.markdown(f"<p><b>{key}:</b> {value}</p>", unsafe_allow_html=True)
-
-    st.markdown("""
+        <div class="result-card">
+            <h2>💲 Salary Prediction</h2>
+            <h1>${st.session_state.predicted_salary:,.0f}</h1>
+            <p>Annual Salary Estimate</p>
+            <p><b>${st.session_state.predicted_salary * 0.85:,.0f}</b> Low Range — 
+               <b>${st.session_state.predicted_salary * 1.15:,.0f}</b> High Range</p>
         </div>
-        <div style="flex: 1;" class="card">
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("<div class='card'><h4>🎯 Your Profile</h4>", unsafe_allow_html=True)
+        for key, value in st.session_state.user_inputs.items():
+            st.markdown(f"<p><b>{key}:</b> {value}</p>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div class='card'>
             <h4>📊 Market Insights</h4>
             <p><b>Industry Average:</b> $55,200</p>
             <p><b>Top 10% Earners:</b> $87,000</p>
             <p><b>Growth Potential:</b> <span style='color:green;'>High</span></p>
             <p><b>Demand Level:</b> <span style='color:blue;'>Very High</span></p>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
